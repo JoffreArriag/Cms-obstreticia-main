@@ -1,0 +1,55 @@
+name: CI/CD Pipeline - CMS Obstetricia
+
+# ─── TRIGGERS ────────────────────────────────────────────────
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# ─── JOBS ────────────────────────────────────────────────────
+jobs:
+
+  # ── Job 1: Build & Test Angular ──────────────────────────
+  build-angular:
+    name: Build Angular
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'Cms-obstreticia-main (1)/Cms-obstreticia-main/package-lock.json'
+
+      - name: 📦 Instalar dependencias (npm install)
+        working-directory: 'Cms-obstreticia-main (1)/Cms-obstreticia-main'
+        run: npm install
+
+      - name: 🔨 Build Angular producción (ng build --prod)
+        working-directory: 'Cms-obstreticia-main (1)/Cms-obstreticia-main'
+        run: npx ng build --configuration production
+
+  # ── Job 2: Build .NET ─────────────────────────────────────
+  build-dotnet:
+    name: Build .NET
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔵 Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 🔨 Build .NET Release (dotnet build -c Release)
+        working-directory: Backend_CMS_Vinculacion
+        run: dotnet build -c Release
