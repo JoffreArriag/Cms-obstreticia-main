@@ -6,5 +6,5 @@ COPY . .
 RUN npx ng build --configuration production
 
 FROM nginx:alpine
-COPY --from=build /app/dist/cms-obstreticia-main/browser /usr/share/nginx/html
+COPY --from=build /app/dist/cms-obstetricia/browser /usr/share/nginx/html
 EXPOSE 80
