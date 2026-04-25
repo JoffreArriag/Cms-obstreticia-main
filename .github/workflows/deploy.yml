@@ -104,4 +104,4 @@ jobs:
 
       - name: ✅ Ejecutar tests unitarios (Backend.Tests - excluir integración)
         working-directory: Backend_CMS_Vinculacion
-        run: dotnet test Backend.Tests/Backend.Tests.csproj --verbosity normal --filter "Category!=Integration"
+        run: dotnet test Backend.Tests/Backend.Tests.csproj --verbosity normal --filter "FullyQualifiedName!~IntegrationTests"
