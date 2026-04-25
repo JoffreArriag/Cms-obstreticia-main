@@ -1,0 +1,17 @@
+<section class="gallery-section">
+  <div class="section-header">
+    <h2>{{ data.title }}</h2>
+    <a class="see-all">Explorar →</a>
+  </div>
+
+  <div class="gallery-grid">
+    <div
+      class="gallery-card"
+      *ngFor="let item of data.items"
+      [ngClass]="'color-' + item.color"
+    >
+      <span class="gallery-emoji">{{ item.emoji }}</span>
+      <span class="gallery-label">{{ item.label }}</span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+<section
+  class="hero-block"
+  [class.hero-block--overlay]="block().data.overlay"
+  [style.backgroundImage]="block().data.backgroundImage ? 'url(' + block().data.backgroundImage + ')' : null"
+>
+  <div class="hero-block__content">
+    <h1 class="hero-block__title">{{ block().data.title }}</h1>
+
+    @if (block().data.subtitle) {
+      <p class="hero-block__subtitle">{{ block().data.subtitle }}</p>
+    }
+
+    @if (block().data.ctaLabel && block().data.ctaRoute) {
+      <a class="hero-block__cta" [routerLink]="block().data.ctaRoute">
+        {{ block().data.ctaLabel }}
+      </a>
+    }
+  </div>
+</section>

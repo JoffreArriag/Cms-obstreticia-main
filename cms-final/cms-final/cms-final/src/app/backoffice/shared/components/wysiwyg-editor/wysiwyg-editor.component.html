@@ -1,0 +1,94 @@
+<div class="wysiwyg" data-testid="wysiwyg">
+  <div class="wysiwyg__toolbar">
+    <button type="button" class="wysiwyg__btn" (click)="addBlock('h1')" data-testid="add-h1">H1</button>
+    <button type="button" class="wysiwyg__btn" (click)="addBlock('h2')" data-testid="add-h2">H2</button>
+    <button type="button" class="wysiwyg__btn" (click)="addBlock('h3')" data-testid="add-h3">H3</button>
+    <button type="button" class="wysiwyg__btn" (click)="addBlock('paragraph')" data-testid="add-paragraph">¶ Párrafo</button>
+
+    <label class="wysiwyg__btn wysiwyg__btn--file">
+      📷 Imagen
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        data-testid="add-image"
+        hidden
+      />
+    </label>
+  </div>
+
+  <div
+    class="wysiwyg__canvas"
+    cdkDropList
+    (cdkDropListDropped)="onDrop($event)"
+    data-testid="wysiwyg-canvas"
+  >
+    @if (blocks().length === 0) {
+      <p class="wysiwyg__empty" data-testid="wysiwyg-empty">
+        Aún no hay contenido. Usa los botones de arriba para añadir bloques.
+      </p>
+    }
+
+    @for (block of blocks(); track block.id) {
+      <div
+        class="wysiwyg__block wysiwyg__block--{{ block.type }}"
+        cdkDrag
+        [attr.data-testid]="'block-' + block.type"
+        [attr.data-block-id]="block.id"
+      >
+        <div class="wysiwyg__block-handle" cdkDragHandle aria-label="Reordenar">⋮⋮</div>
+
+        @switch (block.type) {
+          @case ('h1') {
+            <h1
+              class="wysiwyg__editable"
+              contenteditable="true"
+              (input)="onContentInput(block.id, $event)"
+            >{{ block.content }}</h1>
+          }
+          @case ('h2') {
+            <h2
+              class="wysiwyg__editable"
+              contenteditable="true"
+              (input)="onContentInput(block.id, $event)"
+            >{{ block.content }}</h2>
+          }
+          @case ('h3') {
+            <h3
+              class="wysiwyg__editable"
+              contenteditable="true"
+              (input)="onContentInput(block.id, $event)"
+            >{{ block.content }}</h3>
+          }
+          @case ('paragraph') {
+            <p
+              class="wysiwyg__editable"
+              contenteditable="true"
+              (input)="onContentInput(block.id, $event)"
+            >{{ block.content }}</p>
+          }
+          @case ('image') {
+            <figure class="wysiwyg__image-wrap">
+              <img [src]="block.content" [alt]="block.alt || ''" loading="lazy" />
+              <input
+                class="wysiwyg__alt"
+                type="text"
+                [value]="block.alt || ''"
+                placeholder="Texto alternativo"
+                (input)="updateAlt(block.id, $any($event.target).value)"
+              />
+            </figure>
+          }
+        }
+
+        <button
+          type="button"
+          class="wysiwyg__remove"
+          (click)="removeBlock(block.id)"
+          [attr.data-testid]="'remove-' + block.id"
+          aria-label="Eliminar bloque"
+        >✕</button>
+      </div>
+    }
+  </div>
+</div>

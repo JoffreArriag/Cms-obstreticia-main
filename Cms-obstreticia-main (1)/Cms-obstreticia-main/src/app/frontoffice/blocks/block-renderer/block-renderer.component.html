@@ -1,0 +1,22 @@
+<ng-container [ngSwitch]="block.type">
+
+  <app-hero-block
+    *ngSwitchCase="'hero'"
+    [data]="heroData"
+  />
+
+  <app-cards-grid
+    *ngSwitchCase="'cards-grid'"
+    [data]="cardsData"
+  />
+
+  <app-gallery-grid
+    *ngSwitchCase="'gallery-grid'"
+    [data]="galleryData"
+  />
+
+  <div *ngSwitchDefault class="block-unknown">
+    Bloque desconocido: {{ block.type }}
+  </div>
+
+</ng-container>

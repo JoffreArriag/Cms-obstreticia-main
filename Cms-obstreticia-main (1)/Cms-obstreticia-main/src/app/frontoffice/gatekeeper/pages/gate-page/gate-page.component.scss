@@ -1,0 +1,85 @@
+.gate-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0d3b72 0%, #0a5298 35%, #0d6eaf 65%, #1282c8 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Orbs decorativos de luz difusa
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.25;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: #00c4ff;
+  top: -180px;
+  right: -120px;
+}
+
+.orb-2 {
+  width: 380px;
+  height: 380px;
+  background: #0044aa;
+  bottom: -100px;
+  left: -80px;
+}
+
+.orb-3 {
+  width: 260px;
+  height: 260px;
+  background: #00e5ff;
+  bottom: 20%;
+  right: 10%;
+  opacity: 0.12;
+}
+
+// Card del formulario
+.gate-card {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 40px 36px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @media (max-width: 540px) {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Texto de módulo al pie
+.gate-footer {
+  margin-top: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}

@@ -1,0 +1,21 @@
+<app-navbar />
+
+<main class="main-content">
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  <p>© 2026 Universidad de Guayaquil · UG Wiki</p>
+  <div class="footer-links">
+    <a href="#" (click)="$event.preventDefault(); togglePrivacidad(true)">Privacidad</a>
+    <a href="#" (click)="$event.preventDefault(); toggleContact(true)">Contacto</a>
+    <a href="#" (click)="$event.preventDefault(); toggleAccess(true)">Accesibilidad</a>
+  </div>
+</footer>
+<app-contacto-modal [isVisible]="showContact" (onClose)="showContact = false"> </app-contacto-modal>
+
+<app-accesibilidad-modal [isVisible]="showAccess" (onClose)="showAccess = false">
+</app-accesibilidad-modal>
+
+<app-privacidad-layout-modal [isVisible]="showPrivacidad" (onClose)="showPrivacidad = false">
+</app-privacidad-layout-modal>

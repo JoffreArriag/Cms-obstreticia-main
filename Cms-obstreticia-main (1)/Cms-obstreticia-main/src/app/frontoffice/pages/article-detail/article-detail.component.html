@@ -1,0 +1,62 @@
+@if (loading()) {
+  <div class="loading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+}
+
+@else if (article(); as art) {
+  <article class="article-page">
+    <div class="article-hero" [ngClass]="art.category">
+      <div class="hero-overlay">
+        <span class="article-emoji">{{ art.emoji }}</span>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <div class="floating-category" [ngClass]="art.category">
+        {{ art.category | uppercase }}
+      </div>
+
+      <header class="article-header">
+        <a class="back-link" routerLink="/">
+          <span class="arrow">←</span> Volver al inicio
+        </a>
+
+        <h1>{{ art.title }}</h1>
+
+        <div class="article-meta">
+          <div class="meta-item">
+            <span class="icon">📅</span> {{ art.date }}
+          </div>
+          <span class="dot"></span>
+          <div class="meta-item">
+            <span class="icon">⏱️</span> {{ art.readingTime | readingTime }}
+          </div>
+          <span class="dot"></span>
+          <app-status-badge status="published"></app-status-badge>
+        </div>
+      </header>
+
+      <section class="body-section">
+        @if(art.excerpt) {
+          <p class="article-excerpt">{{ art.excerpt }}</p>
+        }
+
+        <div class="article-body-text">
+          <p>El contenido completo del artículo se cargará desde el CMS.</p>
+          <div class="placeholder-line"></div>
+          <div class="placeholder-line short"></div>
+        </div>
+      </section>
+    </div>
+  </article>
+}
+
+@else {
+  <div class="not-found">
+    <div class="not-found-icon">🔍</div>
+    <h3>Artículo no encontrado</h3>
+    <p>Lo sentimos, no pudimos encontrar lo que buscabas.</p>
+    <a routerLink="/" class="btn-back">Volver al inicio</a>
+  </div>
+}

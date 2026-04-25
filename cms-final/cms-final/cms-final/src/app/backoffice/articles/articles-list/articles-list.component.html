@@ -1,0 +1,88 @@
+<app-page-header
+  title="Artículos"
+  description="Publicaciones del Portal Obstétrico"
+  [breadcrumbs]="[{ label: 'Inicio', route: '/admin/dashboard' }, { label: 'Artículos' }]"
+>
+  <a routerLink="/admin/articles/new" class="btn btn--primary" data-testid="btn-new-article">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    Nuevo artículo
+  </a>
+</app-page-header>
+
+<div class="list-toolbar">
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar por título, slug o autor..."
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+      class="search-input"
+    />
+  </div>
+  <span class="list-count">{{ filteredArticles().length }} artículo{{ filteredArticles().length !== 1 ? 's' : '' }}</span>
+</div>
+
+<div class="table-card">
+  @if (filteredArticles().length === 0) {
+    <div class="table-empty">
+      <p>No se encontraron artículos</p>
+    </div>
+  } @else {
+    <table class="table" data-testid="articles-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Slug</th>
+          <th>Autor</th>
+          <th>Estado</th>
+          <th>Publicado</th>
+          <th class="table__th--actions">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (article of filteredArticles(); track article.id) {
+          <tr class="table__row" [attr.data-testid]="'article-row-' + article.id">
+            <td class="table__td--title">
+              <span class="page-title">{{ article.title }}</span>
+              @if (article.summary) {
+                <span class="page-description">{{ article.summary }}</span>
+              }
+            </td>
+            <td><code class="slug-chip">{{ article.slug }}</code></td>
+            <td>{{ article.author }}</td>
+            <td><app-status-badge [status]="article.status" /></td>
+            <td class="table__td--date">{{ article.publishedAt | date:'dd/MM/yyyy' }}</td>
+            <td class="table__td--actions">
+              <div class="actions">
+                <a
+                  [routerLink]="['/admin/articles', article.id, 'edit']"
+                  class="action-btn action-btn--edit"
+                  [attr.data-testid]="'btn-edit-' + article.id"
+                >Editar</a>
+                <button
+                  class="action-btn action-btn--delete"
+                  (click)="confirmDelete(article)"
+                >Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+@if (articleToDelete()) {
+  <app-modal
+    title="Eliminar artículo"
+    [description]="'¿Estás seguro de que deseas eliminar «' + articleToDelete()!.title + '»? Esta acción no se puede deshacer.'"
+    confirmLabel="Sí, eliminar"
+    cancelLabel="Cancelar"
+    variant="danger"
+    [loading]="deleteLoading()"
+    (confirmed)="deleteArticle()"
+    (cancelled)="cancelDelete()"
+  />
+}

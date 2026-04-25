@@ -1,0 +1,89 @@
+<div class="register-form" [formGroup]="form">
+  <div class="form-header">
+    <div class="logo-icon">🎓</div>
+    <div class="form-header-text">
+      <strong>Universidad de Guayaquil</strong>
+      <span>WIKI VISUAL · CMS</span>
+    </div>
+  </div>
+
+  <h1>Bienvenido al Portal</h1>
+  <p class="form-subtitle">
+    Para acceder al contenido académico, por favor completa el formulario de registro. Tus datos
+    serán almacenados de forma segura.
+  </p>
+
+  <div class="error-banner" *ngIf="error()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+    {{ error() }}
+  </div>
+
+  <div class="form-row">
+    <div class="field" [class.invalid]="isInvalid('nombres')">
+      <label>Nombres</label>
+      <input
+        type="text"
+        formControlName="nombres"
+        placeholder="Tu nombre completo"
+        autocomplete="given-name"
+      />
+      <span class="field-error" *ngIf="isInvalid('nombres')">Ingresa tu nombre</span>
+    </div>
+    <div class="field" [class.invalid]="isInvalid('apellidos')">
+      <label>Apellidos</label>
+      <input
+        type="text"
+        formControlName="apellidos"
+        placeholder="Tus apellidos"
+        autocomplete="family-name"
+      />
+      <span class="field-error" *ngIf="isInvalid('apellidos')">Ingresa tus apellidos</span>
+    </div>
+  </div>
+
+  <div class="field" [class.invalid]="isInvalid('correo')">
+    <label>Correo electrónico</label>
+    <input
+      type="email"
+      formControlName="correo"
+      placeholder="ejemplo@ug.edu.ec"
+      autocomplete="email"
+    />
+    <span class="field-error" *ngIf="isInvalid('correo')">Ingresa un correo válido</span>
+  </div>
+
+  <div class="field" [class.invalid]="isInvalid('facultad')">
+    <label>Facultad / Área</label>
+    <select formControlName="facultad">
+      <option value="" disabled>Seleccionar...</option>
+      <option *ngFor="let f of facultades" [value]="f">{{ f }}</option>
+    </select>
+    <span class="field-error" *ngIf="isInvalid('facultad')">Selecciona una facultad</span>
+  </div>
+
+  <button
+    type="button"
+    class="btn-submit"
+    [class.loading]="loading()"
+    [disabled]="loading()"
+    (click)="onSubmit()"
+  >
+    <span *ngIf="!loading()">Ingresar al Portal →</span>
+    <span *ngIf="loading()" class="btn-spinner"></span>
+  </button>
+
+  <p class="form-legal">
+    Al continuar aceptas nuestra
+    <a href="#" (click)="$event.preventDefault(); toggleModal(true)">Política de Privacidad</a>.
+    Datos protegidos por Microsoft Forms.
+  </p>
+</div>
+
+<app-privacidad-modal 
+  [isVisible]="showModalPrivacidad" 
+  (onClose)="toggleModal(false)">
+</app-privacidad-modal>

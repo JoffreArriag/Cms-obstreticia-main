@@ -1,0 +1,76 @@
+.navbar {
+  background: #1a1a2e;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 48px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  overflow-x: auto;       
+  white-space: nowrap;    
+  -webkit-overflow-scrolling: touch; 
+
+  .nav-logo {
+    color: #fff;
+    font-weight: 300;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    white-space: nowrap;
+
+    strong { font-weight: 600; }
+  }
+
+  .nav-pill {
+    background: #3a6fd8;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:not(.active) { opacity: 0.6; }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+
+    a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover,
+      &.active { color: #fff; }
+    }
+  }
+
+  .nav-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s;
+
+    &:hover { color: rgba(255, 255, 255, 0.7); }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

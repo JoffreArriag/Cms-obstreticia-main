@@ -1,0 +1,58 @@
+<section
+  class="gallery gallery--cols-{{ columns() }}"
+  data-testid="gallery"
+  (keydown)="onKeydown($event)"
+  tabindex="0"
+>
+  @for (img of images(); track img.id) {
+    <figure
+      class="gallery__item"
+      (click)="open(img)"
+      [attr.data-testid]="'gallery-item-' + img.id"
+    >
+      <img
+        class="gallery__img"
+        [src]="img.thumb || img.src"
+        [alt]="img.alt"
+        loading="lazy"
+        decoding="async"
+      />
+      @if (img.title) {
+        <figcaption class="gallery__caption">{{ img.title }}</figcaption>
+      }
+    </figure>
+  }
+</section>
+
+@if (selected(); as current) {
+  <div
+    class="gallery-detail"
+    role="dialog"
+    aria-modal="true"
+    data-testid="gallery-detail"
+    (click)="close()"
+  >
+    <div class="gallery-detail__box" (click)="$event.stopPropagation()">
+      <button
+        class="gallery-detail__close"
+        type="button"
+        (click)="close()"
+        data-testid="gallery-close"
+        aria-label="Cerrar detalle"
+      >✕</button>
+
+      <img
+        class="gallery-detail__img"
+        [src]="current.src"
+        [alt]="current.alt"
+      />
+
+      @if (current.title) {
+        <h3 class="gallery-detail__title">{{ current.title }}</h3>
+      }
+      @if (current.description) {
+        <p class="gallery-detail__description">{{ current.description }}</p>
+      }
+    </div>
+  </div>
+}

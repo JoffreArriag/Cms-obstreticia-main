@@ -1,0 +1,41 @@
+@if (article(); as a) {
+  <article class="article-detail" data-testid="article-detail">
+    @if (a.coverImage) {
+      <div class="article-detail__cover" [style.backgroundImage]="'url(' + a.coverImage + ')'"></div>
+    }
+
+    <div class="article-detail__content">
+      <nav class="article-detail__breadcrumb">
+        <a routerLink="/">← Volver al inicio</a>
+      </nav>
+
+      <h1 class="article-detail__title" data-testid="article-title">{{ a.title }}</h1>
+
+      <div class="article-detail__meta">
+        <span class="article-detail__author" data-testid="article-author">Por {{ a.author }}</span>
+        <span class="article-detail__dot">•</span>
+        <span class="article-detail__date" data-testid="article-date">
+          {{ a.publishedAt | date:'dd MMM yyyy' }}
+        </span>
+      </div>
+
+      @if (a.tags && a.tags.length > 0) {
+        <div class="article-detail__tags">
+          @for (tag of a.tags; track tag) {
+            <span class="tag">#{{ tag }}</span>
+          }
+        </div>
+      }
+
+      <p class="article-detail__summary" data-testid="article-summary">{{ a.summary }}</p>
+
+      <div class="article-detail__body" [innerHTML]="a.body" data-testid="article-body"></div>
+    </div>
+  </article>
+} @else {
+  <div class="article-not-found" data-testid="article-not-found">
+    <h1>Artículo no encontrado</h1>
+    <p>El artículo que buscas no existe o ha sido retirado.</p>
+    <a routerLink="/" class="btn-back">Volver al inicio</a>
+  </div>
+}

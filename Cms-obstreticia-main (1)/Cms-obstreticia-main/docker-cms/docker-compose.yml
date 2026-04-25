@@ -1,0 +1,60 @@
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: cms_sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - cms_network
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../backend
+      dockerfile: ../docker-cms/Dockerfile.backend
+    container_name: cms_api
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ASPNETCORE_URLS: "http://+:5115"
+      ConnectionStrings__defaultConnection: >-
+        Server=sqlserver,1433;Database=CMSVinculacion;
+        User Id=sa;Password=${DB_PASSWORD};
+        TrustServerCertificate=True;
+        Connection Timeout=30;
+      Jwt__Key: ${JWT_SECRET}
+      Jwt__Issuer: ${JWT_ISSUER:-CMSVinculacion.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-CMSVinculacion.Client}
+    ports:
+      - "5115:5115"
+    depends_on:
+      - sqlserver
+    networks:
+      - cms_network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker-cms/Dockerfile.frontend
+    container_name: cms_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - cms_network
+    restart: unless-stopped
+
+networks:
+  cms_network:
+    driver: bridge
+
+volumes:
+  sqlserver_data:

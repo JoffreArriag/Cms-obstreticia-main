@@ -1,0 +1,45 @@
+# ─────────────────────────────────────────────
+# STAGE 1: Build .NET 9
+# ─────────────────────────────────────────────
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
+
+WORKDIR /src
+
+# Copiar todos los .csproj primero para aprovechar caché de capas
+COPY CMSVinculacion.Api/CMSVinculacion.Api/CMSVinculacion.Api.csproj                     CMSVinculacion.Api/CMSVinculacion.Api/
+COPY CMSVinculacion.Api/CMSVinculacion.Application/CMSVinculacion.Application.csproj     CMSVinculacion.Api/CMSVinculacion.Application/
+COPY CMSVinculacion.Api/CMSVinculacion.Domain/CMSVinculacion.Domain.csproj               CMSVinculacion.Api/CMSVinculacion.Domain/
+COPY CMSVinculacion.Api/CMSVinculacion.Infrastructure/CMSVinculacion.Infrastructure.csproj CMSVinculacion.Api/CMSVinculacion.Infrastructure/
+
+# Restaurar dependencias
+RUN dotnet restore CMSVinculacion.Api/CMSVinculacion.Api/CMSVinculacion.Api.csproj
+
+# Copiar el resto del código fuente
+COPY . .
+
+# Publicar en modo Release
+RUN dotnet publish CMSVinculacion.Api/CMSVinculacion.Api/CMSVinculacion.Api.csproj \
+    -c Release \
+    -o /app/publish \
+    --no-restore
+
+# ─────────────────────────────────────────────
+# STAGE 2: Runtime (imagen más liviana)
+# ─────────────────────────────────────────────
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+
+WORKDIR /app
+
+# Crear carpeta para uploads de media
+RUN mkdir -p /app/media-uploads
+
+# Copiar el publish
+COPY --from=builder /app/publish .
+
+# El puerto que usa la API (ver launchSettings.json)
+EXPOSE 5115
+
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:5115
+
+ENTRYPOINT ["dotnet", "CMSVinculacion.Api.dll"]

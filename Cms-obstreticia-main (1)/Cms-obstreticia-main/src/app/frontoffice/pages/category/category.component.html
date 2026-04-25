@@ -1,0 +1,31 @@
+<div class="category-page">
+  <div class="category-header">
+    <h1>{{ getCategoryTitle() }}</h1>
+    <p>{{ articles().length }} artículo(s) encontrado(s)</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Cargando artículos...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    @if (articles().length > 0) {
+      <div class="cards-grid">
+        @for (article of articles(); track article.id) {
+          <app-article-card [article]="article" />
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <h2>Próximamente</h2>
+        <p>Estamos preparando contenido sobre {{ getCategoryTitle() }}.</p>
+        <p>¡Vuelve pronto para ver las novedades!</p>
+        <a routerLink="/" class="btn-return">Volver al inicio</a>
+      </div>
+    }
+  }
+</div>

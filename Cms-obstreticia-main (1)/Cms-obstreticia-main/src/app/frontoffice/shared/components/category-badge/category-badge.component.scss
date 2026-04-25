@@ -1,0 +1,13 @@
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+
+  &.investigacion { color: #2563a8; }
+  &.cultura        { color: #2e7d4f; }
+  &.tecnologia     { color: #c2620a; }
+  &.eventos        { color: #7c3aed; }
+  &.proyectos      { color: #b91c1c; }
+}

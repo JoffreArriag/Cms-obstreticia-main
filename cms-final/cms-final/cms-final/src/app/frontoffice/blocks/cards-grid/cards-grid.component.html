@@ -1,0 +1,32 @@
+<section class="cards-grid-block">
+  @if (block().data.title || block().data.subtitle) {
+    <div class="cards-grid-block__header">
+      @if (block().data.title) {
+        <h2 class="cards-grid-block__title">{{ block().data.title }}</h2>
+      }
+      @if (block().data.subtitle) {
+        <p class="cards-grid-block__subtitle">{{ block().data.subtitle }}</p>
+      }
+    </div>
+  }
+
+  <div class="cards-grid-block__grid cards-grid-block__grid--cols-{{ block().data.columns ?? 3 }}">
+    @for (card of block().data.cards; track card.title) {
+      <div class="card">
+        @if (card.icon) {
+          <div class="card__icon" [innerHTML]="card.icon"></div>
+        }
+        <h3 class="card__title">{{ card.title }}</h3>
+        <p class="card__description">{{ card.description }}</p>
+        @if (card.linkLabel && card.linkRoute) {
+          <a class="card__link" [routerLink]="card.linkRoute">
+            {{ card.linkLabel }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>

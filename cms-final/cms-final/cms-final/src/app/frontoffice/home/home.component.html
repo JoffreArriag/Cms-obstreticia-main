@@ -1,0 +1,43 @@
+<app-block-renderer [blocks]="blocks" />
+
+<section class="articles-section" data-testid="articles-section">
+  <div class="articles-section__header">
+    <h2 class="articles-section__title">Últimas publicaciones</h2>
+    <p class="articles-section__subtitle">
+      Información, consejos y noticias del departamento de Obstetricia.
+    </p>
+  </div>
+
+  @if (articles().length === 0) {
+    <p class="articles-section__empty" data-testid="articles-empty">
+      Aún no hay publicaciones disponibles.
+    </p>
+  } @else {
+    <div class="articles-grid">
+      @for (article of articles(); track article.id) {
+        <article
+          class="article-card"
+          [attr.data-testid]="'article-card-' + article.slug"
+        >
+          @if (article.coverImage) {
+            <div class="article-card__cover" [style.backgroundImage]="'url(' + article.coverImage + ')'"></div>
+          }
+          <div class="article-card__body">
+            <span class="article-card__date">
+              {{ article.publishedAt | date:'dd MMM yyyy' }}
+            </span>
+            <h3 class="article-card__title">{{ article.title }}</h3>
+            <p class="article-card__summary">{{ article.summary }}</p>
+            <a
+              class="article-card__link"
+              [routerLink]="['/articulo', article.slug]"
+              [attr.data-testid]="'article-link-' + article.slug"
+            >
+              Leer más →
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

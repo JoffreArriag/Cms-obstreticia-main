@@ -1,0 +1,57 @@
+.hero-block {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a2d4a 0%, #1e5fa8 100%);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  &--overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    opacity: .9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  &__cta {
+    display: inline-block;
+    padding: .875rem 2.25rem;
+    background: #fff;
+    color: #1e5fa8;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.2);
+    }
+  }
+}

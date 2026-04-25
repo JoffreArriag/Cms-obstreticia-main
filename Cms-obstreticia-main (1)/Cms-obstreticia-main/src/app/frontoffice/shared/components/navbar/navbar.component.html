@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <a class="nav-logo" routerLink="/">UG <strong>wiki</strong></a>
+
+  <button
+    class="nav-pill"
+    [class.active]="activeCategory() === 'todos'"
+    (click)="setActive('todos')"
+  >
+    Todos
+  </button>
+
+  <div class="nav-links">
+    <a
+      *ngFor="let link of navLinks"
+      [routerLink]="link.route"
+      [class.active]="activeCategory() === link.category"
+      (click)="setActive(link.category)"
+    >
+      {{ link.label }}
+    </a>
+  </div>
+
+  <div class="nav-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.35-4.35"/>
+    </svg>
+    <span>Buscar artículos...</span>
+  </div>
+</nav>
+
